@@ -1,28 +1,33 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class ParkingLot {
-    private boolean isFull;
+    private int carSpace;
 
-    public ParkingLot(){
-    }
+    private List<Car> carList = new ArrayList<Car>();
 
-    public ParkingLot(boolean isFull) {
-        this.isFull = isFull;
+    public ParkingLot(int carSpace) {
+        this.carSpace = carSpace;
     }
 
     public Ticket park(Car car) throws Exception {
-        if(!isFull) {
-            return new Ticket(true);
+        if (carList.size() < carSpace) {
+            carList.add(car);
+            return new Ticket(car.getCarNumber());
         } else {
             throw new Exception("car park is full");
         }
     }
 
     public Car collectCar(Ticket ticket) throws Exception {
-        if(!ticket.getValid()){
+        Optional<Car> carOptional = carList.stream().filter(x -> x.getCarNumber().equals(ticket.getCarNumber())).findFirst();
+        if (!carOptional.isPresent()) {
             throw new Exception("invalid ticket");
         }
-        ticket.setValid(false);
-        return new Car("123");
+        carList.remove(carOptional.get());
+        return carOptional.get();
     }
 }

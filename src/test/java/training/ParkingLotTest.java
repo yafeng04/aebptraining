@@ -14,7 +14,7 @@ public class ParkingLotTest {
     @Test
     public void givenParkingLotIsNotFullWhenParkCarThenProvideTicket() throws Exception {
         Car car = new Car();
-        ParkingLot parkingLot = new ParkingLot(false);
+        ParkingLot parkingLot = new ParkingLot(1);
         Ticket ticket = parkingLot.park(car);
         assert ticket != null;
     }
@@ -22,7 +22,7 @@ public class ParkingLotTest {
     @Test
     public void givenParkingLotIsFullWhenParkCarThenFailedToParkAndRemindCarParkIsFull() throws Exception {
         Car car = new Car();
-        ParkingLot parkingLot = new ParkingLot(true);
+        ParkingLot parkingLot = new ParkingLot(0);
         expectedException.expect(Exception.class);
         expectedException.expectMessage("car park is full");
         parkingLot.park(car);
@@ -31,11 +31,13 @@ public class ParkingLotTest {
     @Test
     public void givenValidTicketWhenCollectCarThenTicketIsInvalidAndCollectedCarNumberEqualsParkingCarNumber() throws Exception {
         Car newCar = new Car("123");
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = new ParkingLot(1);
         Ticket ticket = parkingLot.park(newCar);
         Car collectedCar = parkingLot.collectCar(ticket);
-        assert !ticket.getValid();
         assert collectedCar.getCarNumber().equals(newCar.getCarNumber());
+        expectedException.expect(Exception.class);
+        expectedException.expectMessage("invalid ticket");
+        parkingLot.collectCar(ticket);
     }
 
     @Test
@@ -43,8 +45,8 @@ public class ParkingLotTest {
         expectedException.expect(Exception.class);
         expectedException.expectMessage("invalid ticket");
 
-        ParkingLot parkingLot = new ParkingLot();
-        Ticket ticket = new Ticket(false);
+        ParkingLot parkingLot = new ParkingLot(1);
+        Ticket ticket = new Ticket("123");
         parkingLot.collectCar(ticket);
     }
 }
