@@ -7,10 +7,11 @@ public class ParkingLot {
         this.isFull = isFull;
     }
 
-    public Ticket park(Car car){
+    public Ticket park(Car car) throws Exception {
        if(!isFull) {
            return new Ticket();
+       } else {
+           throw new Exception("car park is full");
        }
-       return null;
     }
 }
