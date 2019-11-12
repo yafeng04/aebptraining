@@ -8,10 +8,15 @@ public class ParkingLot {
     }
 
     public Ticket park(Car car) throws Exception {
-       if(!isFull) {
-           return new Ticket();
-       } else {
-           throw new Exception("car park is full");
-       }
+        if(!isFull) {
+            return new Ticket(true);
+        } else {
+            throw new Exception("car park is full");
+        }
+    }
+
+    public Car collectCar(Ticket ticket) {
+        ticket.setValid(false);
+        return new Car("123");
     }
 }

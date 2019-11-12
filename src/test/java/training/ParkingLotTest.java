@@ -27,4 +27,14 @@ public class ParkingLotTest {
         expectedException.expectMessage("car park is full");
         parkingLot.park(car);
     }
+
+    @Test
+    public void givenValidTicketWhenCollectCarThenTicketIsInvalidAndCollectedCarNumberEqualsParkingCarNumber() throws Exception {
+        Car newCar = new Car("123");
+        ParkingLot parkingLot = new ParkingLot(false);
+        Ticket ticket = parkingLot.park(newCar);
+        Car collectedCar = parkingLot.collectCar(ticket);
+        assert !ticket.getValid();
+        assert collectedCar.getCarNumber().equals(newCar.getCarNumber());
+    }
 }
