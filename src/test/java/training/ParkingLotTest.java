@@ -12,11 +12,12 @@ public class ParkingLotTest {
     public ExpectedException expectedException= ExpectedException.none();
 
     @Test
-    public void givenParkingLotIsNotFullWhenParkCarThenProvideTicket() throws Exception {
-        Car car = new Car();
+    public void givenParkingLotIsNotFullWhenParkCarThenProvideAssociatedTicket() throws Exception {
+        Car car = new Car("123");
         ParkingLot parkingLot = new ParkingLot(1);
         Ticket ticket = parkingLot.park(car);
         assert ticket != null;
+        assert ticket.getCarNumber().equals(car.getCarNumber());
     }
 
     @Test
@@ -29,7 +30,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void givenValidTicketWhenCollectCarThenTicketIsInvalidAndCollectedCarNumberEqualsParkingCarNumber() throws Exception {
+    public void givenValidTicketWhenCollectCarThenCollectedCarNumberEqualsParkingCarNumberAndTicketIsInvalid() throws Exception {
         Car newCar = new Car("123");
         ParkingLot parkingLot = new ParkingLot(1);
         Ticket ticket = parkingLot.park(newCar);
