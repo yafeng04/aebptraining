@@ -3,6 +3,9 @@ package model;
 public class ParkingLot {
     private boolean isFull;
 
+    public ParkingLot(){
+    }
+
     public ParkingLot(boolean isFull) {
         this.isFull = isFull;
     }
@@ -15,7 +18,10 @@ public class ParkingLot {
         }
     }
 
-    public Car collectCar(Ticket ticket) {
+    public Car collectCar(Ticket ticket) throws Exception {
+        if(!ticket.getValid()){
+            throw new Exception("invalid ticket");
+        }
         ticket.setValid(false);
         return new Car("123");
     }

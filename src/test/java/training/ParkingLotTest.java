@@ -31,10 +31,20 @@ public class ParkingLotTest {
     @Test
     public void givenValidTicketWhenCollectCarThenTicketIsInvalidAndCollectedCarNumberEqualsParkingCarNumber() throws Exception {
         Car newCar = new Car("123");
-        ParkingLot parkingLot = new ParkingLot(false);
+        ParkingLot parkingLot = new ParkingLot();
         Ticket ticket = parkingLot.park(newCar);
         Car collectedCar = parkingLot.collectCar(ticket);
         assert !ticket.getValid();
         assert collectedCar.getCarNumber().equals(newCar.getCarNumber());
+    }
+
+    @Test
+    public void givenInvalidTicketWhenCollectCarThenFailedToCollectAndRemindInvalidTicket() throws Exception {
+        expectedException.expect(Exception.class);
+        expectedException.expectMessage("invalid ticket");
+
+        ParkingLot parkingLot = new ParkingLot();
+        Ticket ticket = new Ticket(false);
+        parkingLot.collectCar(ticket);
     }
 }
