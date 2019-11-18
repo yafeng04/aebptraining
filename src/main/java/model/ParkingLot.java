@@ -16,7 +16,7 @@ public class ParkingLot {
     public Ticket park(Car car) throws Exception {
         if (carList.size() < carSpace) {
             carList.add(car);
-            return new Ticket(car.getCarNumber());
+            return new Ticket(car.getCarNumber(), this);
         } else {
             throw new Exception("car park is full");
         }
@@ -29,5 +29,21 @@ public class ParkingLot {
         }
         carList.remove(carOptional.get());
         return carOptional.get();
+    }
+
+    public int getCarSpace() {
+        return carSpace;
+    }
+
+    public void setCarSpace(int carSpace) {
+        this.carSpace = carSpace;
+    }
+
+    public List<Car> getCarList() {
+        return carList;
+    }
+
+    public void setCarList(List<Car> carList) {
+        this.carList = carList;
     }
 }

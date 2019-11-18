@@ -1,12 +1,16 @@
 package training;
 
 import model.Car;
+import model.ParkingBoy;
 import model.ParkingLot;
 import model.Ticket;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParkingLotTest {
     @Rule
@@ -69,4 +73,30 @@ public class ParkingLotTest {
         Ticket ticket = new Ticket("123");
         parkingLot.collectCar(ticket);
     }
+
+    @Test
+    public void givenParkingBoyAndOneParkinglotWhenParkCarThenProvideTicket() throws Exception {
+        List<ParkingLot> parkingLotList=new ArrayList<>();
+        ParkingLot parkingLot = new ParkingLot(2);
+        parkingLotList.add(parkingLot);
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLotList);
+        Car car = new Car("123");
+        Ticket ticket = parkingBoy.park(car);
+        assert ticket != null;
+
+    }
+    @Test
+    public void givenParkingBoyAndEmptyParkinglot1AndEmptyParkinglot2WhenParkCarThenProvideTicketAndCarInParkinglot1() throws Exception {
+        List<ParkingLot> parkingLotList = new ArrayList<>();
+        Car car = new Car("123");
+        ParkingLot parkingLot1 = new ParkingLot(2);
+        ParkingLot parkingLot2 = new ParkingLot(2);
+        parkingLotList.add(parkingLot1);
+        parkingLotList.add(parkingLot2);
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLotList);
+        Ticket ticket = parkingBoy.park(car);
+        assert ticket.getCarNumber().equals(car.getCarNumber());
+        assert ticket.getParkingLot().equals(parkingLot1);
+    }
+
 }
